@@ -4,7 +4,7 @@
   "description": "Include AngularJS templates in the Webpack bundle and preload the template cache.",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/webpack/bin/webpack.js --config=test/webpack.config.js"
+    "test": "standard && webpack --config=test/webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,14 @@
       "url": "http://www.opensource.org/licenses/mit-license.php"
     }
   ],
+  "standard": {
+    "ignore": [
+      "test/**/*"
+    ],
+    "globals": [
+      "angular"
+    ]
+  },
   "dependencies": {
     "jsesc": "^0.5.0",
     "loader-utils": "~0.2.6"
@@ -30,6 +38,7 @@
     "baggage-loader": "^0.2.1",
     "html-loader": "^0.2.2",
     "raw-loader": "^0.5.1",
-    "webpack": "^1.7.0"
+     "standard": "^10.0.1",
+     "webpack": "^1.7.0"
   }
 }
