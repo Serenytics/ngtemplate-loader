@@ -1,5 +1,5 @@
 node_modules
 .idea
-test/test.js
+test/output
 test/npm-debug.log
 bundle.js

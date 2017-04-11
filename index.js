@@ -9,7 +9,7 @@ module.exports = function (content) {
   var ngModule = query.module || 'ng' // ng is the global angular module that does not need to explicitly required
   var relativeTo = query.relativeTo || ''
   var prefix = query.prefix || ''
-  var requireAngular = !!query.requireAngular || false
+  var globalAngular = !!query.globalAngular || false
   var absolute = false
   var pathSep = query.pathSep || '/'
   var resource = this.resource
@@ -40,11 +40,12 @@ module.exports = function (content) {
   }
 
   var filePath = prefix + resource.slice(relativeToIndex + relativeTo.length) // get the base path
-  var angular = requireAngular ? `require('angular')` : 'window.'
+  var angular = globalAngular ? 'window.angular' : `require('angular')`
+  var escapedHtml = escapeHtml(content)
 
   return `
       var path = '${escapeHtml(filePath)}';
-      ${angular}.module('${ngModule}').run(['$templateCache', function(c) { c.put(path, ${escapeHtml(content)}) }]);
+      ${angular}.module('${ngModule}').run(['$templateCache', function(c) { c.put(path, '${escapedHtml}') }]);
       module.exports = path;
   `
   // source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
