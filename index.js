@@ -1,6 +1,6 @@
 var loaderUtils = require('loader-utils')
 var path = require('path')
-var jsesc = require('jsesc')
+var escapeHtml = require('js-string-escape')
 
 module.exports = function (content) {
   this.cacheable && this.cacheable()
@@ -40,8 +40,8 @@ module.exports = function (content) {
 
   var filePath = prefix + resource.slice(relativeToIndex + relativeTo.length) // get the base path
 
-  return "var path = '" + jsesc(filePath) + "';\n" +
-        'var html = ' + content + ';\n' +
+  return "var path = '" + escapeHtml(filePath) + "';\n" +
+        'var html = ' + escapeHtml(content) + ';\n' +
         (requireAngular ? "var angular = require('angular');\n" : 'window.') +
         "angular.module('" + ngModule + "').run(['$templateCache', function(c) { c.put(path, html) }]);\n" +
         'module.exports = path;'
