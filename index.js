@@ -26,6 +26,7 @@ module.exports = function (content) {
     }
   }
 
+  // TODO: can we defer to node path for some of this?
   // normalise the path separators
   if (path.sep !== pathSep) {
     relativeTo = relativeTo.replace(pathSepRegex, pathSep)
@@ -39,13 +40,13 @@ module.exports = function (content) {
   }
 
   var filePath = prefix + resource.slice(relativeToIndex + relativeTo.length) // get the base path
+  var angular = requireAngular ? `require('angular')` : 'window.'
 
-  return "var path = '" + escapeHtml(filePath) + "';\n" +
-        'var html = ' + escapeHtml(content) + ';\n' +
-        (requireAngular ? "var angular = require('angular');\n" : 'window.') +
-        "angular.module('" + ngModule + "').run(['$templateCache', function(c) { c.put(path, html) }]);\n" +
-        'module.exports = path;'
-
+  return `
+      var path = '${escapeHtml(filePath)}';
+      ${angular}.module('${ngModule}').run(['$templateCache', function(c) { c.put(path, ${escapeHtml(content)}) }]);
+      module.exports = path;
+  `
   // source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
   function escapeRegExp (string) {
     return string.replace(/([.*+?^=!:${}()|[\]/\\])/g, '\\$1')
