@@ -15,8 +15,8 @@ module.exports = function (content) {
   var resource = this.resource
   var pathSepRegex = new RegExp(escapeRegExp(path.sep), 'g')
 
-    // if a unix path starts with // we treat is as an absolute path e.g. //Users/wearymonkey
-    // if we're on windows, then we ignore the / prefix as windows absolute paths are unique anyway e.g. C:\Users\wearymonkey
+  // if a unix path starts with // we treat is as an absolute path e.g. //Users/wearymonkey
+  // if we're on windows, then we ignore the / prefix as windows absolute paths are unique anyway e.g. C:\Users\wearymonkey
   if (relativeTo[0] === '/') {
     if (path.sep === '\\') { // we're on windows
       relativeTo = relativeTo.substring(1)
@@ -26,7 +26,7 @@ module.exports = function (content) {
     }
   }
 
-    // normalise the path separators
+  // normalise the path separators
   if (path.sep !== pathSep) {
     relativeTo = relativeTo.replace(pathSepRegex, pathSep)
     prefix = prefix.replace(pathSepRegex, pathSep)
@@ -46,7 +46,7 @@ module.exports = function (content) {
         "angular.module('" + ngModule + "').run(['$templateCache', function(c) { c.put(path, html) }]);\n" +
         'module.exports = path;'
 
-    // source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
+  // source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
   function escapeRegExp (string) {
     return string.replace(/([.*+?^=!:${}()|[\]/\\])/g, '\\$1')
   }
