@@ -30,16 +30,18 @@
       "angular"
     ]
   },
+  "peerDependencies": {
+    "webpack": "^2.2.0"
+  },
   "dependencies": {
     "js-string-escape": "^1.0.1",
     "jsesc": "^0.5.0",
     "loader-utils": "~0.2.6"
   },
   "devDependencies": {
-    "baggage-loader": "^0.2.1",
     "html-loader": "^0.2.2",
     "raw-loader": "^0.5.1",
     "standard": "^10.0.1",
-    "webpack": "^1.7.0"
+    "webpack": "^2.3.3"
   }
 }
