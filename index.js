@@ -41,11 +41,10 @@ module.exports = function (content) {
 
   var filePath = prefix + resource.slice(relativeToIndex + relativeTo.length) // get the base path
   var angular = globalAngular ? 'window.angular' : `require('angular')`
-  var escapedHtml = escapeHtml(content)
 
   return `
       var path = '${escapeHtml(filePath)}';
-      ${angular}.module('${ngModule}').run(['$templateCache', function(c) { c.put(path, '${escapedHtml}') }]);
+      ${angular}.module('${ngModule}').run(['$templateCache', function(c) { c.put(path, '${escapeHtml(content)}') }]);
       module.exports = path;
   `
   // source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
