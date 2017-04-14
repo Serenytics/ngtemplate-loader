@@ -42,13 +42,33 @@ module.exports = function (content) {
   var filePath = prefix + resource.slice(relativeToIndex + relativeTo.length) // get the base path
   var angular = globalAngular ? 'window.angular' : `require('angular')`
 
+  var html;
+  if (content.match(/^module\.exports/)) {
+      var firstQuote = findQuote(content, false);
+      var secondQuote = findQuote(content, true);
+      html = content.substr(firstQuote, secondQuote - firstQuote + 1);
+  } else {
+      html = content;
+  }
+
   return `
       var path = '${escapeHtml(filePath)}';
-      ${angular}.module('${ngModule}').run(['$templateCache', function(c) { c.put(path, '${escapeHtml(content)}') }]);
+      ${angular}.module('${ngModule}').run(['$templateCache', function(c) { c.put(path, ${html}) }]);
       module.exports = path;
   `
   // source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
   function escapeRegExp (string) {
     return string.replace(/([.*+?^=!:${}()|[\]/\\])/g, '\\$1')
   }
+
+    function findQuote(content, backwards) {
+        var i = backwards ? content.length - 1 : 0;
+        while (i >= 0 && i < content.length) {
+            if (content[i] == '"' || content[i] == "'") {
+                return i;
+            }
+            i += backwards ? -1 : 1;
+        }
+        return -1;
+    }
 }
